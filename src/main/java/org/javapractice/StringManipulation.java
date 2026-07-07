@@ -1,15 +1,18 @@
 package org.javapractice;
 
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StringManipulation {
     public static void main(String[] args) {
 
         countVowelsConsonants();
+        firstNonRepeatingCharacter();
         reverseWordsSentence();
         reverseIfRAppearsTwiceWithMap();
         checkRCountAndReverse();
+        firstNonRepeatingCharacter();
     }
 
     /*
@@ -34,6 +37,24 @@ public class StringManipulation {
         }
         System.out.println("vowelCount : " + vowelCount + " === consonantCount : " + consonantCount);
     }
+
+/*    P42: First Non-Repeating Character   ·  Easy · Strings
+    Find the first character in a string that does not repeat. Return the character and its index.
+    Input:  "aabbcde"
+    Output: c at index 4*/
+
+    private static void firstNonRepeatingCharacter() {
+        String input = "aabbcde";
+        Map<Character, Integer> charOcc = charOccurrence(input);
+        for(Map.Entry<Character, Integer> iterate : charOcc.entrySet()) {
+            if(iterate.getValue() ==1) {
+                System.out.println(iterate.getKey() + " index " + input.indexOf(iterate.getKey()));
+                return;
+            }
+        }
+        System.out.println("No non-repeating character found");
+    }
+
 
     /*
         P43: Reverse Words in a Sentence	Easy  ·  Strings
@@ -69,7 +90,7 @@ public class StringManipulation {
         String[] arr = input.trim().split("\\s+");
         StringBuilder sb = new StringBuilder();
         for (String s : arr) {
-            Map<Character, Integer> map = charCount(s);
+            Map<Character, Integer> map = charOccurrence(s);
             if (map.containsKey('r') && map.get('r') == 2) {
                 sb.append(s).reverse().append(" ");
             } else {
@@ -79,8 +100,13 @@ public class StringManipulation {
         System.out.println(sb.toString());
     }
 
-    private static Map<Character, Integer> charCount(String input) {
-        Map<Character, Integer> charCount = new HashMap<>();
+/*    P46: Identify Character Occurrence   ·  Medium · Strings
+    Write a program to identify the occurrence of each character in the string "character" and print in sorted order of character.
+            Input:  "character"
+    Output: a=2, c=2, e=1, h=1, r=2, t=1*/
+
+    private static Map<Character, Integer> charOccurrence(String input) {
+        Map<Character, Integer> charCount = new LinkedHashMap<>();
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             if (charCount.containsKey(ch)) {
